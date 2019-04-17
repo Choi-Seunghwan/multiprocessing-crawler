@@ -17,7 +17,7 @@ class Crawler:
         self.frontier = Frontier(self.config)
         self.agents = []
         for id in range(self.config.agentCount):
-            self.agents.append(Agent(id))
+            self.agents.append(Agent(self.config, id))
 
         #setting seed url on waiting queue
         self.url_waiting_queue.put(self.config.seedURL)

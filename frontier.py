@@ -17,16 +17,19 @@ class Frontier:
     
 
     def do_work(self, url_waiting_queue, url_result_queue ):
-            try:
-                while True:
-                    url = url_result_queue.get(TIME_OUT)
+        
+        try:
+            while True:
+                url = url_result_queue.get(timeout=TIME_OUT)
                 
-                    if self.check_url(url):
-                        self.visited.append(url)
-                        url_waiting_queue.put(url)
-                    sleep(2)
-                    print("waitingQ Size: ", url_waiting_queue.qsize())
-                    print("resultQ Size: ", url_result_queue.qsize())
-            except Exception as e:
-                print('Frontier exception :', e)
+                if self.check_url(url):
+                    self.visited.append(url)
+                    url_waiting_queue.put(url)
+                # sleep(2)
+                # print("waitingQ Size: ", url_waiting_queue.qsize())
+                # print("resultQ Size: ", url_result_queue.qsize())
+            
+        except Exception as e:
+            print('Frontier exception :', e.__doc__)
+            
     
