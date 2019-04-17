@@ -1,7 +1,36 @@
+import requests
+from bs4 import BeautifulSoup
+from time import sleep
+import re
+
+
+TIME_OUT = 5 #sec
+
 class Agent:
     def __init__(self, id):
         self.id = id
+
+    def get_html(self, url):
+        _html = ''
+        res = requests.get(url)
+        if res.status_code == 200:
+            _html = res.text
+        return _html
         
 
-    def do_work(self):
-        pass
+    def do_work(self, url_waiting_queue, url_result_queue):
+        try:
+            while True:
+                url = url_waiting_queue.get(TIME_OUT)
+                soup = BeautifulSoup(self.get_html(url), 'lxml')
+                
+                for a in soup.find_all('a', attrs={'href': re.compile("^https://")}):
+                    url_result_queue.put(a['href'])
+                print("agent: ", self.id)
+            
+                sleep(2)
+
+        except Exception as e:
+            print('Agent Exception :', e)
+
+        
