@@ -3,7 +3,7 @@ import validators
 
 from multiprocessing.queues import Empty
 import re
-TIME_OUT = 5 #sec
+TIME_OUT = 30 #sec
 
 class Frontier:
     def __init__(self, config):
@@ -11,16 +11,17 @@ class Frontier:
         self.seedURL = config.seedURL
 
     def check_url(self, url):
+        s1 = 'http://'
+        s2 = 'https://'
         
         if url in self.visited:
             return False
         
-        if not self.seedURL in url:
+        if s1 in url or s2 in url:
             return False
 
         if validators.url(url) == False:
             return False
-
 
         return True
     
@@ -33,13 +34,13 @@ class Frontier:
                
                 if self.check_url(url):
                     self.visited.append(url)
-                    url_waiting_queue.put(url)
+                    putUrl = self.seedURL + url
+                    url_waiting_queue.put(putUrl)
                     workCount += 1
-                # sleep(2)
                
         except Exception as e:
             print('Frontier exception :', e.__doc__)
-        
+        print("workCount : ", workCount )
         print("wait Q size : ", url_waiting_queue.qsize() )
         print("result Q size : ", url_result_queue.qsize() )
         print("Frontier END : ")
