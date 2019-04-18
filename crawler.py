@@ -5,6 +5,7 @@ import os
 from agent import Agent
 from frontier import Frontier
 from config import Config
+from multiprocessing.queues import Empty
 
 
 class Crawler:
@@ -21,6 +22,20 @@ class Crawler:
 
         #setting seed url on waiting queue
         self.url_waiting_queue.put(self.config.seedURL)
+
+
+    def flush_queue_buffer(self):
+        try:
+            while True:
+                self.url_result_queue.get(block=False)
+        except Empty:
+            pass
+
+        try:
+            while True:
+                self.url_waiting_queue.get(block=False)
+        except Empty:
+            pass
 
 
     def do_work(self):
@@ -41,16 +56,25 @@ class Crawler:
             p_frontier.start()
             for p_agent in p_agents:
                 p_agent.start()
-
+        
             #join processes
-            p_frontier.join()
             for p_agent in p_agents:
                 p_agent.join()
+                p_agent.close()
+                print("B")
+            print("a")
 
+            self.flush_queue_buffer()
+            
+            p_frontier.join()
+            p_frontier.close()
+            print("A")
+            
             print("--crawling complete--")
 
         except Exception as e:
             print('cralwer, exception : ', e)
+
 
 if __name__ == "__main__":
     c = Crawler()
