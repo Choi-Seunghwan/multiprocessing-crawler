@@ -61,16 +61,13 @@ class Crawler:
             for p_agent in p_agents:
                 p_agent.join()
                 p_agent.close()
-                print("B")
-            print("a")
 
             self.flush_queue_buffer()
             
             p_frontier.join()
             p_frontier.close()
-            print("A")
             
-            print("--crawling complete--")
+            print("--complete--")
 
         except Exception as e:
             print('cralwer, exception : ', e)

@@ -39,7 +39,7 @@ class Agent:
         try:
             url = ''
             # pickle 때문에 __init__ 이 아닌,  여기서 선언.
-            self.driver = webdriver.Chrome('./chromedriver.exe')
+            self.driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver")
             self.driver.implicitly_wait(5)
             self.driver.get(self.seedURL)
         

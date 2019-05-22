@@ -23,7 +23,7 @@ def test1_checkURL(url):
 
 def test1():
     
-    driver = webdriver.Chrome('./chromedriver.exe')
+    driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver")
     driver.implicitly_wait(10)
     driver.get(seedURL)
     _html = driver.page_source
