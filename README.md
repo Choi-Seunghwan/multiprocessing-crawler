@@ -11,7 +11,7 @@ beta version.
 
 ## Technologies
 * Python 3.6
-* Chrome WebDriver
+* Selenium
 * BeautifulSoup4
 
 ### Structure
