@@ -38,7 +38,7 @@ class Agent:
         
         try:
             url = ''
-            # pickle 때문에 __init__ 이 아닌,  여기서 선언.
+            # Process 생성 시 메모리 영역 분리 됨. 때문에 __init__ 이 아닌,  여기서 선언.
             self.driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver")
             self.driver.implicitly_wait(5)
             self.driver.get(self.seedURL)
